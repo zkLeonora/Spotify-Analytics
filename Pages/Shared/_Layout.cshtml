@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - Spotify Analytics</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SpotifyAnalytics.web.styles.css" asp-append-version="true" />
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="site-nav">
+            <div class="nav-container">
+                <a class="brand" asp-area="" asp-page="/Index">
+                    <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <rect x="0" y="10" width="4" height="8" rx="1" fill="#2D6A4F"/>
+                        <rect x="7.5" y="5" width="4" height="13" rx="1" fill="#2D6A4F"/>
+                        <rect x="15" y="0" width="4" height="18" rx="1" fill="#2D6A4F"/>
+                    </svg>
+                    Spotify Analytics
+                </a>
+
+                <div class="nav-links">
+                    <a asp-area="" asp-page="/Index">Home</a>
+                    <a asp-area="" asp-page="/Privacy">Privacy</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <span>Spotify Analytics</span>
+            <span>Built with ASP.NET Core & Python</span>
+        </div>
+    </footer>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

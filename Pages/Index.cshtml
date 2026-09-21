@@ -1,0 +1,822 @@
+﻿@page
+@model SpotifyAnalytics.Web.Pages.IndexModel
+
+<div class="dashboard">
+
+<header class="dashboard-header">
+    <p class="eyebrow">DATA ANALYTICS</p>
+    <h1>Spotify Analytics</h1>
+    <p class="subtitle">
+        Explore music performance across Spotify and YouTube.
+    </p>
+</header>
+
+<section class="search-section">
+    <form method="post" class="artist-search">
+        <input
+            type="text"
+            asp-for="ArtistName"
+            placeholder="Search artist..."
+            autocomplete="off" />
+
+        <button type="submit">
+            Analyze
+        </button>
+    </form>
+</section>
+
+@if (Model.ArtistResult is not null)
+{
+    @if (Model.ArtistResult.Found)
+    {
+        <section class="content-section artist-result">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">ARTIST ANALYSIS</p>
+                    <h2>@Model.ArtistResult.Artist</h2>
+                </div>
+            </div>
+
+            <div class="summary-grid">
+                <article class="stat-card">
+                    <span class="stat-label">Tracks</span>
+                    <strong>@Model.ArtistResult.Tracks.ToString("N0")</strong>
+                </article>
+
+                <article class="stat-card">
+                    <span class="stat-label">Albums</span>
+                    <strong>@Model.ArtistResult.Albums.ToString("N0")</strong>
+                </article>
+
+                <article class="stat-card">
+                    <span class="stat-label">Spotify Streams</span>
+                    <strong>@Model.ArtistResult.SpotifyStreams.ToString("N0")</strong>
+                </article>
+
+                <article class="stat-card">
+                    <span class="stat-label">YouTube Views</span>
+                    <strong>@Model.ArtistResult.YoutubeViews.ToString("N0")</strong>
+                </article>
+
+                <article class="stat-card">
+                    <span class="stat-label">Danceability</span>
+                    <strong>@Model.ArtistResult.AverageDanceability.ToString("0.00")</strong>
+                </article>
+
+                <article class="stat-card">
+                    <span class="stat-label">Energy</span>
+                    <strong>@Model.ArtistResult.AverageEnergy.ToString("0.00")</strong>
+                </article>
+            </div>
+        </section>
+    }
+    else
+    {
+        <section class="content-section">
+            <p class="empty-state">
+                Artist "@Model.ArtistName" was not found.
+            </p>
+        </section>
+    }
+}
+
+@if (Model.Summary is not null)
+{
+    <section class="summary-grid">
+        <article class="stat-card">
+            <span class="stat-label">Total Tracks</span>
+            <strong>@Model.Summary.TotalTracks.ToString("N0")</strong>
+        </article>
+
+        <article class="stat-card">
+            <span class="stat-label">Total Artists</span>
+            <strong>@Model.Summary.TotalArtists.ToString("N0")</strong>
+        </article>
+
+        <article class="stat-card">
+            <span class="stat-label">Total Albums</span>
+            <strong>@Model.Summary.TotalAlbums.ToString("N0")</strong>
+        </article>
+
+        <article class="stat-card">
+            <span class="stat-label">Spotify Streams</span>
+            <strong>@Model.Summary.TotalStreams.ToString("N0")</strong>
+        </article>
+
+        <article class="stat-card">
+            <span class="stat-label">YouTube Views</span>
+            <strong>@Model.Summary.TotalYoutubeViews.ToString("N0")</strong>
+        </article>
+
+        <article class="stat-card">
+            <span class="stat-label">Avg. Danceability</span>
+            <strong>@Model.Summary.AverageDanceability.ToString("0.00")</strong>
+        </article>
+    </section>
+}
+
+@if (Model.AudioFeatures is not null)
+{
+    <section class="content-section">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">AUDIO PROFILE</p>
+                <h2>Average Audio Characteristics</h2>
+            </div>
+        </div>
+
+        <div class="feature-grid">
+
+            <div class="feature-item">
+                <div class="feature-header">
+                    <span>Danceability</span>
+                    <strong>@Model.AudioFeatures.Danceability.ToString("0.00")</strong>
+                </div>
+
+                <div class="feature-track">
+                    <div
+                        class="feature-bar"
+                        style="width: @(Model.AudioFeatures.Danceability * 100).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)%">
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-header">
+                    <span>Energy</span>
+                    <strong>@Model.AudioFeatures.Energy.ToString("0.00")</strong>
+                </div>
+
+                <div class="feature-track">
+                    <div
+                        class="feature-bar"
+                        style="width: @(Model.AudioFeatures.Energy * 100).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)%">
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-header">
+                    <span>Valence</span>
+                    <strong>@Model.AudioFeatures.Valence.ToString("0.00")</strong>
+                </div>
+
+                <div class="feature-track">
+                    <div
+                        class="feature-bar"
+                        style="width: @(Model.AudioFeatures.Valence * 100).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)%">
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-header">
+                    <span>Acousticness</span>
+                    <strong>@Model.AudioFeatures.Acousticness.ToString("0.00")</strong>
+                </div>
+
+                <div class="feature-track">
+                    <div
+                        class="feature-bar"
+                        style="width: @(Model.AudioFeatures.Acousticness * 100).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)%">
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-header">
+                    <span>Speechiness</span>
+                    <strong>@Model.AudioFeatures.Speechiness.ToString("0.00")</strong>
+                </div>
+
+                <div class="feature-track">
+                    <div
+                        class="feature-bar"
+                        style="width: @(Model.AudioFeatures.Speechiness * 100).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)%">
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-header">
+                    <span>Instrumentalness</span>
+                    <strong>@Model.AudioFeatures.Instrumentalness.ToString("0.00")</strong>
+                </div>
+
+                <div class="feature-track">
+                    <div
+                        class="feature-bar"
+                        style="width: @(Model.AudioFeatures.Instrumentalness * 100).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)%">
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-header">
+                    <span>Liveness</span>
+                    <strong>@Model.AudioFeatures.Liveness.ToString("0.00")</strong>
+                </div>
+
+                <div class="feature-track">
+                    <div
+                        class="feature-bar"
+                        style="width: @(Model.AudioFeatures.Liveness * 100).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)%">
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-header">
+                    <span>Tempo</span>
+                    <strong>@Model.AudioFeatures.Tempo.ToString("0.00") BPM</strong>
+                </div>
+            </div>
+
+        </div>
+    </section>
+}
+
+@if (Model.AudioProfile is not null)
+{
+    <section class="content-section">
+        <div class="section-header">
+            <h2>Audio Characteristics</h2>
+            <p>Average characteristics of tracks in the dataset.</p>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="audioProfileChart"></canvas>
+        </div>
+    </section>
+}
+
+@if (Model.TopArtistsChart is not null)
+{
+    <section class="content-section">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">VISUALIZATION</p>
+                <h2>Spotify Streams by Artist</h2>
+            </div>
+
+            <span class="section-badge">Top 10</span>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="spotifyArtistsChart"></canvas>
+        </div>
+    </section>
+}
+
+@if (Model.TopArtistsYoutube is not null)
+{
+    <section class="content-section">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">YOUTUBE</p>
+                <h2>YouTube Views by Artist</h2>
+            </div>
+
+            <span class="section-badge">Top 10</span>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="youtubeArtistsChart"></canvas>
+        </div>
+    </section>
+}
+
+@if (Model.TopTracksSpotify is not null)
+{
+    <section class="content-section">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">TOP TRACKS</p>
+                <h2>Most Streamed Tracks on Spotify</h2>
+            </div>
+
+            <span class="section-badge">Top 10</span>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="analytics-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Track</th>
+                        <th>Artist</th>
+                        <th>Streams</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @{
+                        var spotifyTrackRank = 1;
+                    }
+
+                    @foreach (var track in Model.TopTracksSpotify)
+                    {
+                        <tr>
+                            <td class="rank">@spotifyTrackRank</td>
+                            <td class="artist-name">@track.Track</td>
+                            <td>@track.Artist</td>
+                            <td class="stream-value">
+                                @track.Streams.ToString("N0")
+                            </td>
+                        </tr>
+
+                        spotifyTrackRank++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+}
+
+@if (Model.TopTracksYoutube is not null)
+{
+    <section class="content-section">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">TOP TRACKS</p>
+                <h2>Most Viewed Tracks on YouTube</h2>
+            </div>
+
+            <span class="section-badge">Top 10</span>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="analytics-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Track</th>
+                        <th>Artist</th>
+                        <th>Views</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @{
+                        var youtubeTrackRank = 1;
+                    }
+
+                    @foreach (var track in Model.TopTracksYoutube)
+                    {
+                        <tr>
+                            <td class="rank">@youtubeTrackRank</td>
+                            <td class="artist-name">@track.Track</td>
+                            <td>@track.Artist</td>
+                            <td class="stream-value">
+                                @track.Views.ToString("N0")
+                            </td>
+                        </tr>
+
+                        youtubeTrackRank++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+}
+
+@if (Model.PlatformComparison is not null)
+{
+    <section class="content-section">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">COMPARISON</p>
+                <h2>Spotify vs YouTube</h2>
+            </div>
+
+            <span class="section-badge">Top 10 Spotify</span>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="analytics-table">
+                <thead>
+                    <tr>
+                        <th>Artist</th>
+                        <th>Spotify Streams</th>
+                        <th>YouTube Views</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var artist in Model.PlatformComparison)
+                    {
+                        <tr>
+                            <td class="artist-name">@artist.Artist</td>
+                            <td class="stream-value">
+                                @artist.SpotifyStreams.ToString("N0")
+                            </td>
+                            <td class="stream-value">
+                                @artist.YoutubeViews.ToString("N0")
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+}
+
+@if (Model.Correlation is not null)
+{
+    <section class="content-section">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">CORRELATION</p>
+                <h2>Spotify Streams vs YouTube Views</h2>
+                <p>
+                    Relationship between Spotify streams and YouTube views.
+                </p>
+            </div>
+
+            <span class="section-badge">
+                r = @Model.Correlation.Correlation.ToString("0.00")
+            </span>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="correlationChart"></canvas>
+        </div>
+
+        <p class="chart-note">
+            Based on @Model.Correlation.SampleSize.ToString("N0")
+            tracks with available Spotify stream and YouTube view data.
+        </p>
+    </section>
+}
+
+@if (Model.AlbumTypes is not null && Model.AlbumTypes.Count > 0)
+{
+    <section class="content-section">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">ALBUM TYPES</p>
+                <h2>Performance by Album Type</h2>
+                <p>
+                    Spotify streams and YouTube views grouped by album type.
+                </p>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="albumTypeChart"></canvas>
+        </div>
+    </section>
+}
+
+<section class="content-section">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">RANKING</p>
+            <h2>Top Artists by Spotify Streams</h2>
+        </div>
+
+        <span class="section-badge">Top 10</span>
+    </div>
+
+    @if (Model.TopArtists is not null)
+    {
+        <div class="table-wrapper">
+            <table class="analytics-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Artist</th>
+                        <th>Total Streams</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @{
+                        var rank = 1;
+                    }
+
+                    @foreach (var artist in Model.TopArtists)
+                    {
+                        <tr>
+                            <td class="rank">@rank</td>
+                            <td class="artist-name">@artist.Key</td>
+                            <td class="stream-value">
+                                @artist.Value.ToString("N0")
+                            </td>
+                        </tr>
+
+                        rank++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <p class="empty-state">
+            Unable to load analytics data.
+        </p>
+    }
+</section>
+
+</div>
+
+@section Scripts {
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+@if (Model.TopArtistsChart is not null)
+{
+    <script>
+        const spotifyData = @Html.Raw(
+            System.Text.Json.JsonSerializer.Serialize(Model.TopArtistsChart)
+        );
+
+        new Chart(
+            document.getElementById("spotifyArtistsChart"),
+            {
+                type: "bar",
+
+                data: {
+                    labels: spotifyData.map(x => x.Artist),
+
+                    datasets: [
+                        {
+                            label: "Spotify Streams",
+                            data: spotifyData.map(x => x.Streams)
+                        }
+                    ]
+                },
+
+                options: {
+                    indexAxis: "y",
+                    responsive: true,
+                    maintainAspectRatio: false,
+
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        );
+    </script>
+}
+
+@if (Model.TopArtistsYoutube is not null)
+{
+    <script>
+        const youtubeData = @Html.Raw(
+            System.Text.Json.JsonSerializer.Serialize(Model.TopArtistsYoutube)
+        );
+
+        new Chart(
+            document.getElementById("youtubeArtistsChart"),
+            {
+                type: "bar",
+
+                data: {
+                    labels: youtubeData.map(x => x.Artist),
+
+                    datasets: [
+                        {
+                            label: "YouTube Views",
+                            data: youtubeData.map(x => x.Views)
+                        }
+                    ]
+                },
+
+                options: {
+                    indexAxis: "y",
+                    responsive: true,
+                    maintainAspectRatio: false,
+
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        );
+    </script>
+}
+
+@if (Model.AudioProfile is not null)
+{
+    <script>
+        const audioProfile = @Html.Raw(
+            System.Text.Json.JsonSerializer.Serialize(Model.AudioProfile)
+        );
+
+        new Chart(
+            document.getElementById("audioProfileChart"),
+            {
+                type: "bar",
+
+                data: {
+                    labels: [
+                        "Danceability",
+                        "Energy",
+                        "Valence",
+                        "Acousticness",
+                        "Speechiness",
+                        "Instrumentalness",
+                        "Liveness"
+                    ],
+
+                    datasets: [
+                        {
+                            label: "Average",
+
+                            data: [
+                                audioProfile.Danceability.Average,
+                                audioProfile.Energy.Average,
+                                audioProfile.Valence.Average,
+                                audioProfile.Acousticness.Average,
+                                audioProfile.Speechiness.Average,
+                                audioProfile.Instrumentalness.Average,
+                                audioProfile.Liveness.Average
+                            ]
+                        }
+                    ]
+                },
+
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 1
+                        }
+                    },
+
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        );
+    </script>
+}
+
+@if (Model.Correlation is not null)
+{
+    <script>
+        const scatterData = @Html.Raw(
+            System.Text.Json.JsonSerializer.Serialize(
+                Model.Correlation.Data
+            )
+        );
+
+        console.log("Scatter data:", scatterData);
+        console.log("Scatter data length:", scatterData.length);
+
+        const points = scatterData
+            .map(x => ({
+                x: Number(x.spotify_streams),
+                y: Number(x.youtube_views)
+            }))
+            .filter(x =>
+                Number.isFinite(x.x) &&
+                Number.isFinite(x.y)
+            );
+
+        console.log("Valid scatter points:", points.length);
+        console.log("First point:", points[0]);
+
+        const correlationCanvas =
+            document.getElementById("correlationChart");
+
+        console.log("Canvas:", correlationCanvas);
+        console.log("Chart:", typeof Chart);
+
+        if (correlationCanvas && typeof Chart !== "undefined") {
+
+            new Chart(
+                correlationCanvas,
+                {
+                    type: "scatter",
+
+                    data: {
+                        datasets: [
+                            {
+                                label: "Tracks",
+                                data: points,
+
+                                pointRadius: 2,
+                                pointHoverRadius: 5
+                            }
+                        ]
+                    },
+
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+
+                        scales: {
+                            x: {
+                                type: "linear",
+
+                                title: {
+                                    display: true,
+                                    text: "Spotify Streams (log10)"
+                                }
+                            },
+
+                            y: {
+                                type: "linear",
+
+                                title: {
+                                    display: true,
+                                    text: "YouTube Views (log10)"
+                                }
+                            }
+                        },
+
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            );
+        }
+    </script>
+}
+
+@if (Model.AlbumTypes is not null)
+{
+    <script>
+        const albumTypeData = @Html.Raw(
+            System.Text.Json.JsonSerializer.Serialize(
+                Model.AlbumTypes
+            )
+        );
+
+        const albumTypeCanvas =
+            document.getElementById("albumTypeChart");
+
+        if (albumTypeCanvas && typeof Chart !== "undefined") {
+            new Chart(
+                albumTypeCanvas,
+                {
+                    type: "bar",
+
+                    data: {
+                        labels: albumTypeData.map(
+                            x => x.album_type
+                        ),
+
+                        datasets: [
+                            {
+                                label: "Spotify Streams",
+                                data: albumTypeData.map(
+                                    x => x.streams
+                                )
+                            },
+
+                            {
+                                label: "YouTube Views",
+                                data: albumTypeData.map(
+                                    x => x.youtube_views
+                                )
+                            }
+                        ]
+                    },
+
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+
+                                ticks: {
+                                    callback: function(value) {
+                                        return Number(value)
+                                            .toLocaleString();
+                                    }
+                                }
+                            }
+                        },
+
+                        plugins: {
+                            legend: {
+                                display: true
+                            }
+                        }
+                    }
+                }
+            );
+        }
+    </script>
+}
+
+}
