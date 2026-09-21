@@ -3,8 +3,12 @@ import pandas as pd
 import numpy as np
 from fastapi import FastAPI
 
-# 2. load file atau datanya
-file_path = "../data/Spotify_YouTube_Cleaned.csv"
+# 2. Load dataset
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parents[2]
+file_path = BASE_DIR / "data" / "Spotify_YouTube_Cleaned.csv"
+
 df = pd.read_csv(file_path)
 
 # 3. buat instance API nya
